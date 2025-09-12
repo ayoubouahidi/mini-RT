@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 23:47:50 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/09/12 00:34:08 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/09/12 22:31:45 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,5 @@ bool	valid_file(int ac, char **av)
 	if (ac != 2 || name_of_file(av[1]))
 		return (1);
 	return (0);
+
 }
