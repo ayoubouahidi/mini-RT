@@ -1,20 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayouahid <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/11 16:57:37 by ayouahid          #+#    #+#             */
-/*   Updated: 2025/09/12 00:31:47 by hamel-yo         ###   ########.fr       */
+/*   Created: 2025/09/11 23:47:50 by hamel-yo          #+#    #+#             */
+/*   Updated: 2025/09/12 00:34:08 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "../include/minirt.h"
+//#include "../include/minirt.c"
 #include "../libft/libft.h"
 
-int main(int ac, char **av)
+bool	name_of_file(char *name)
 {
-	if (valid_file(ac, av))
+	int	len;
+
+	len = ft_strlen(name);
+	if (ft_strncmp(name + (len - 3), ".rt", 3))
 		return (1);
+	return (0);
+}
+
+
+bool	valid_file(int ac, char **av)
+{
+	if (ac != 2 || name_of_file(av[1]))
+		return (1);
+	return (0);
 }
