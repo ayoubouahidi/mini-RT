@@ -101,7 +101,7 @@ typedef struct s_lexer
 typedef struct s_token
 {
 	char *value;
-	t_token *next;
+	struct s_token *next;
 }	t_token;
 
 // functions
@@ -112,4 +112,5 @@ t_token	*tokenize(t_lexer *lexer);
 void	ft_lstadd_back_token(t_token **lst, t_token *new);
 int 	ft_strcmp(const char *s1, const char *s2);
 void	print_linked_list(t_token *head_token);
+t_lexer	*creat_lexer(char *content);
 

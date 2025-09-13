@@ -18,16 +18,11 @@
 # include <stdlib.h>
 //# include <stdio.h>
 //# include <string.h>
-
+#include "../libft/libft.h"
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
 
-typedef struct s_list
-{
-	char			*content ;
-	struct s_list	*next;
-}	t_list;
 
 char	*get_next_line(int fd);
 char	*ft_strdup(char **buffer, int *fd);

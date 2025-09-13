@@ -1,33 +1,45 @@
 NAME = mini
 
-CC = cc -g
+CC = cc 
 CFLAGS = -Wall -Wextra -Werror -Imlx
 
+LIBFT_DIR = ./libft
+LIBFT = $(LIBFT_DIR)/libft.a
+
+INCLUDES = -Iincludes -I$(LIBFT_DIR)
 
 SRCS = gnl/get_next_line.c  gnl/get_next_line_utils.c \
-       libft/ft_atoi.c    libft/ft_isalnum.c  libft/ft_isdigit.c  libft/ft_lstadd_back_bonus.c   libft/ft_lstdelone_bonus.c  libft/ft_lstmap_bonus.c   libft/ft_memchr.c  libft/ft_memmove.c     libft/ft_putendl_fd.c  libft/ft_split.c   libft/ft_striteri.c  libft/ft_strlcpy.c  libft/ft_strncmp.c  libft/ft_strtrim.c  libft/ft_toupper.c	libft/ft_bzero.c   libft/ft_isalpha.c  libft/ft_isprint.c  libft/ft_lstadd_front_bonus.c  libft/ft_lstiter_bonus.c    libft/ft_lstnew_bonus.c   libft/ft_memcmp.c  libft/ft_memset.c      libft/ft_putnbr_fd.c   libft/ft_strchr.c  libft/ft_strjoin.c   libft/ft_strlen.c   libft/ft_strnstr.c  libft/ft_substr.c	libft/ft_calloc.c  libft/ft_isascii.c  libft/ft_itoa.c     libft/ft_lstclear_bonus.c      libft/ft_lstlast_bonus.c    libft/ft_lstsize_bonus.c  libft/ft_memcpy.c  libft/ft_putchar_fd.c  libft/ft_putstr_fd.c   libft/ft_strdup.c  libft/ft_strlcat.c   libft/ft_strmapi.c  libft/ft_strrchr.c  libft/ft_tolower.c src/main.c  src/parsing.c \
-	   parser_utils.c \ 
-	   
+		src/main.c \
+		src/parser_utils.c  \
+		src/parser.c \
  
-OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
-OBJ_DIR = .obj
+OBJS = $(SRCS:%.c=%.o)
+# OBJ_DIR = .obj
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT) | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) 
+$(NAME): $(OBJS) $(LIBFT) 
+	$(CC) $(CFLAGS) $(INCLUDES) -o $(NAME) $(OBJS) $(LIBFT)
 
-$(OBJ_DIR):
-	mkdir .obj
+%.o: %.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
-	$(CC) $(CFLAGS)  -c $< -o $@
+$(LIBFT):
+	make -C $(LIBFT_DIR) bonus
+
+# $(OBJ_DIR):
+# 	mkdir .obj
+
+# $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
+# 	$(CC) $(CFLAGS)  -c $< -o $@
 
 clean:
-	rm -rf .obj
+	rm -f $(OBJS)
+	make -C $(LIBFT_DIR) clean
 
 fclean: clean
 	rm -f $(NAME)
+	make -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
