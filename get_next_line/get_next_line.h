@@ -3,32 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ayouahid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/12 08:36:11 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/01/20 00:21:15 by hamel-yo         ###   ########.fr       */
+/*   Created: 2025/01/05 13:13:14 by ayouahid          #+#    #+#             */
+/*   Updated: 2025/01/05 13:13:16 by ayouahid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_H 
 # define GET_NEXT_LINE_H
 
-# include <unistd.h>
-# include <fcntl.h>
-# include <stdlib.h>
-//# include <stdio.h>
-//# include <string.h>
-#include "../libft/libft.h"
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
+#  define BUFFER_SIZE 1
 # endif
+#include "../libft/libft.h"
+# include <fcntl.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <stddef.h>
 
-
+// char	*ft_strdup(const char *s);
+// char	*ft_strjoin(char const *s1, char const *s2);
+// char	*ft_strchr(const char *str, int c);
+// size_t	ft_strlen(const char *a);
 char	*get_next_line(int fd);
-char	*ft_strdup(char **buffer, int *fd);
-char	*ft_changestr(char **buffer, size_t i);
-int		ft_strlen(t_list *ls);
-void	ft_free_list(t_list **ls);
-void	ft_check(int read_byte, t_list **ls, char **buffer, int *fd);
+char	*freenull(char *buff, char *readed);
 
 #endif

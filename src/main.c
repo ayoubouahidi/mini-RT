@@ -18,5 +18,6 @@ int main(int ac, char **av)
 {
 	if (valid_file(ac, av))
 		return (1);
+	
 	parser_file(av[1]);
 }

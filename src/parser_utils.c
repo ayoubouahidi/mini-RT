@@ -74,7 +74,7 @@ t_token	*tokenize(t_lexer *lexer)
 			while (lexer->c == ' ' || lexer->c == '\t' || lexer->c == '\n'
 				|| lexer->c == '\r' || lexer->c == '\f' || lexer->c == '\v')
 				increment_using_index(lexer);	
-			return (string_process(lexer));	
+		return (string_process(lexer));	
 	}
 	return (creat_token("END"));
 }

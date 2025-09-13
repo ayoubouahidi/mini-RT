@@ -8,10 +8,10 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 INCLUDES = -Iincludes -I$(LIBFT_DIR)
 
-SRCS = gnl/get_next_line.c  gnl/get_next_line_utils.c \
+SRCS = get_next_line/get_next_line.c  get_next_line/get_next_line_utils.c \
 		src/main.c \
 		src/parser_utils.c  \
-		src/parser.c \
+		src/parsing.c \
  
 OBJS = $(SRCS:%.c=%.o)
 # OBJ_DIR = .obj

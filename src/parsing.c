@@ -41,6 +41,7 @@ void	parse_to_scene(char *line)
 	t_token *token;
 	t_token *head_token;
 
+	head_token = NULL;
 	trim = ft_strtrim(line, " ");
 	lexer = creat_lexer(trim);
 	token = NULL;
@@ -66,6 +67,7 @@ void	parser_file(char *filename)
 	while (1)
 	{
 		line = get_next_line(fd);
+		// printf("test\n");
 		if (line == NULL)
 			break;
 		lines_nums++;
