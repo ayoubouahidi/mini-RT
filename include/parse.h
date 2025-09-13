@@ -1,5 +1,11 @@
 #include <stdio.h>
-#include "minilibx-linux/mlx.h"
+// #include "minilibx-linux/mlx.h"
+#include <stdbool.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include "../gnl/get_next_line.h"
+#include "../libft/libft.h"
+#include <stdlib.h>
 
 typedef struct s_color
 {
@@ -80,3 +86,30 @@ typedef struct s_scene
 	int num_planes;
 	int num_cylinder;
 }		t_scene;
+
+
+// some structs gonna help me building parser part
+
+typedef struct s_lexer
+{
+	char			c;
+	unsigned int	i;
+	char			*content;
+}					t_lexer;
+
+
+typedef struct s_token
+{
+	char *value;
+	t_token *next;
+}	t_token;
+
+// functions
+
+bool	valid_file(int ac, char **av);
+void	parser_file(char *filename);
+t_token	*tokenize(t_lexer *lexer);
+void	ft_lstadd_back_token(t_token **lst, t_token *new);
+int 	ft_strcmp(const char *s1, const char *s2);
+void	print_linked_list(t_token *head_token);
+
