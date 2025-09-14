@@ -84,6 +84,11 @@ void	parse_camera(t_token *head_token, t_scene *scene)
 	scene->camera = camera;
 }
 
+void	parse_light(t_token *head_token, t_scene *scene)
+{
+	
+}
+
 void	parse_to_scene(char *line, t_scene *scene)
 {
 	char *trim;
@@ -108,10 +113,10 @@ void	parse_to_scene(char *line, t_scene *scene)
 		parse_ambient_light(head_token, scene);
 	if (ft_strcmp(head_token->value, "C") == 0)
 		parse_camera(head_token, scene);
-	// if (ft_strcmp(head_token->value, "L") == 0)
-	// 	parse_light(head_token, scene);
-	// if (ft_strcmp(head_token->value, "sp") == 0)
-	// 	parse_light(head_token, scene);	
+	if (ft_strcmp(head_token->value, "L") == 0)
+		parse_light(head_token, scene);
+	if (ft_strcmp(head_token->value, "sp") == 0)
+		parse_light(head_token, scene);	
 	// printf("ambient light ration ==> [%f]\n", scene->ambient_light.ratio);
 	// printf("ambient light colors ==> [%f],[%f],[%f]\n", scene->ambient_light.color.red, scene->ambient_light.color.green, scene->ambient_light.color.blue);
 	// printf("CAMERA fov==> [%d]", scene->camera.fov);
