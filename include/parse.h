@@ -107,10 +107,11 @@ typedef struct s_token
 // functions
 
 bool	valid_file(int ac, char **av);
-void	parser_file(char *filename);
+void	parser_file(char *filename, t_scene *scene);
 t_token	*tokenize(t_lexer *lexer);
 void	ft_lstadd_back_token(t_token **lst, t_token *new);
 int 	ft_strcmp(const char *s1, const char *s2);
 void	print_linked_list(t_token *head_token);
 t_lexer	*creat_lexer(char *content);
-
+double	check_calcul(char *str, int i);
+double	ft_atoi_modf(char *str);

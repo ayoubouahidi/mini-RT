@@ -116,3 +116,48 @@ void	print_linked_list(t_token *head_token)
 	}
 	
 }
+
+double	check_calcul(char *str, int i)
+{
+	double	dicimal;
+	double	result;
+
+	result = 0;
+	dicimal = 1.0;
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		result = result * 10 + (str[i] - '0');
+		i++;
+	}
+	if (str[i] == '.')
+	{
+		i++;
+		while (str[i] >= '0' && str[i] <= '9')
+		{
+			dicimal /= 10;
+			result += (str[i] - '0') * dicimal;
+			i++;
+		}
+	}
+	return (result);
+}
+
+double	ft_atoi_modf(char *str)
+{
+	int		i;
+	int		sign;
+	double	res;
+
+	i = 0;
+	sign = 1;
+	if (!str)
+		return (0);
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			sign = -1;
+		i++;
+	}
+	res = check_calcul(str, i);
+	return (res * sign);
+}

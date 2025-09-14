@@ -14,10 +14,21 @@
 #include "../libft/libft.h"
 #include "../include/parse.h"
 
+// void	init(t_scene *scene)
+// {
+// 	scene->ambient_light;
+
+// }
+
 int main(int ac, char **av)
 {
+	t_scene scene;
+
+	
+	// init(&scene);
+	ft_bzero(&scene, sizeof(scene));
 	if (valid_file(ac, av))
 		return (1);
 	
-	parser_file(av[1]);
+	parser_file(av[1], &scene);
 }
