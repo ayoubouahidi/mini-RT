@@ -115,3 +115,4 @@ void	print_linked_list(t_token *head_token);
 t_lexer	*creat_lexer(char *content);
 double	check_calcul(char *str, int i);
 double	ft_atoi_modf(char *str);
+size_t	ft_count_word(char *s, char c);

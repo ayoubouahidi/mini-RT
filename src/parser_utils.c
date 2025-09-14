@@ -161,3 +161,17 @@ double	ft_atoi_modf(char *str)
 	res = check_calcul(str, i);
 	return (res * sign);
 }
+
+size_t	ft_count_word(char *s, char c)
+{
+	size_t	w;
+
+	w = 0;
+	while (*s != 0)
+	{
+		if (*s != c && (*(s + 1) == c || *(s + 1) == 0))
+			w++;
+		s++ ;
+	}
+	return (w);
+}
