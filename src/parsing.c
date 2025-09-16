@@ -14,6 +14,7 @@
 #include "../libft/libft.h"
 #include "../include/parse.h"
 
+
 bool	name_of_file(char *name)
 {
 	int	len;
@@ -24,7 +25,6 @@ bool	name_of_file(char *name)
 	return (0);
 }
 
-
 bool	valid_file(int ac, char **av)
 {
 	if (ac != 2 || name_of_file(av[1]))
@@ -33,24 +33,53 @@ bool	valid_file(int ac, char **av)
 }
 
 
+
+t_coordinates parse_coordinates(char *coord_str)
+{
+	t_coordinates coordinates;
+	char **coord;
+
+	if (ft_count_word(coord_str, ',') != 3)
+		exit(1); // handle error
+	coord = ft_split(coord_str, ',');
+	coordinates.x = ft_atoi_modf(coord[0]);
+	coordinates.y = ft_atoi_modf(coord[1]);
+	coordinates.z = ft_atoi_modf(coord[2]);
+	free(coord[0]);
+	free(coord[1]);
+	free(coord[2]);
+	free(coord);
+	return (coordinates);
+}
+
+t_color parse_color(char *color_str)
+{
+	t_color color;
+	char **colors;
+
+	if (ft_count_word(color_str, ',') != 3)
+		exit(1); // handle error
+	colors = ft_split(color_str, ',');
+	color.red = ft_atoi(colors[0]);
+	color.green = ft_atoi(colors[1]);
+	color.blue = ft_atoi(colors[2]);
+	free(colors[0]);
+	free(colors[1]);
+	free(colors[2]);
+	free(colors);
+	return (color);
+}
+
 void	parse_ambient_light(t_token *head_token, t_scene *scene)
 {
 	t_ambient_light ambient_light;
 	t_token *token;
-	t_color color;
-	char **colors;
 
 	token = head_token;
 	// printf("token value in ambient light [%s]\n", token->value);
 	ambient_light.id = "A";
 	ambient_light.ratio = ft_atoi_modf(token->next->value);
-	if (ft_count_word(token->next->next->value, ',') != 3)
-		exit(1); // handle error maybe i will print an error mssg here or to change a flag
-	colors = ft_split(token->next->next->value, ',');
-	color.red = ft_atoi(colors[0]);
-	color.green = ft_atoi(colors[1]);
-	color.blue = ft_atoi(colors[2]);
-	ambient_light.color = color;
+	ambient_light.color = parse_color(token->next->next->value);
 	// printf("ambient light ration ==> [%f]\n", ambient_light.ratio);
 	// printf("ambient light colors ==> [%f],[%f],[%f]\n", ambient_light.color.red, ambient_light.color.green, ambient_light.color.blue);
 	scene->ambient_light = ambient_light;
@@ -61,32 +90,41 @@ void	parse_camera(t_token *head_token, t_scene *scene)
 {
 	t_token *token;
 	t_camera camera;
-	t_coordinates coordinates;
-	t_coordinates orientation;
-	char **coord;
 
 	token = head_token;
 	camera.id = "C";
-	if (ft_count_word(token->next->value, ',') != 3 || ft_count_word(token->next->next->value, ',') != 3)
-		exit(1); // handle error maybe i will print an error mssg here or to change a flag
-	coord = ft_split(head_token->next->value, ','); 
-	coordinates.x = ft_atoi_modf(coord[0]);
-	coordinates.y = ft_atoi_modf(coord[1]);
-	coordinates.z = ft_atoi_modf(coord[2]);
-	coord = NULL;
-	coord =  ft_split(head_token->next->next->value, ',');
-	orientation.x = ft_atoi_modf(coord[0]);
-	orientation.y = ft_atoi_modf(coord[1]);
-	orientation.z = ft_atoi_modf(coord[2]);
-	camera.viewpoint = coordinates;
-	camera.orientation = orientation;
+	camera.viewpoint = parse_coordinates(head_token->next->value);
+	camera.orientation = parse_coordinates(head_token->next->next->value);
 	camera.fov = ft_atoi(head_token->next->next->next->value);
 	scene->camera = camera;
 }
 
 void	parse_light(t_token *head_token, t_scene *scene)
 {
-	
+	t_light light;
+	t_light *tmp_array_light;
+	int i;
+
+	i = 0;
+	light.id = "L";
+	light.light_point = parse_coordinates(head_token->next->value);
+	light.brightness_ratio = ft_atoi_modf(head_token->next->next->value);
+	if (light.brightness_ratio < 0.0 || light.brightness_ratio > 1.0)
+		return ;
+	light.color = parse_color(head_token->next->next->next->value);
+	tmp_array_light = malloc(sizeof(t_light) * (scene->num_lights + 1));
+	if (!tmp_array_light)
+		exit(1); 
+	while (i < scene->num_lights)
+	{
+		tmp_array_light[i] = scene->lightes[i];
+		i++;
+	}
+	tmp_array_light[scene->num_lights] = light;
+	if (scene->lightes)
+		free(scene->lightes);
+	scene->lightes = tmp_array_light;
+	scene->num_lights++;
 }
 
 void	parse_to_scene(char *line, t_scene *scene)
@@ -115,8 +153,8 @@ void	parse_to_scene(char *line, t_scene *scene)
 		parse_camera(head_token, scene);
 	if (ft_strcmp(head_token->value, "L") == 0)
 		parse_light(head_token, scene);
-	if (ft_strcmp(head_token->value, "sp") == 0)
-		parse_light(head_token, scene);	
+	// if (ft_strcmp(head_token->value, "sp") == 0)
+	// 	parse_light(head_token, scene);	
 	// printf("ambient light ration ==> [%f]\n", scene->ambient_light.ratio);
 	// printf("ambient light colors ==> [%f],[%f],[%f]\n", scene->ambient_light.color.red, scene->ambient_light.color.green, scene->ambient_light.color.blue);
 	// printf("CAMERA fov==> [%d]", scene->camera.fov);
