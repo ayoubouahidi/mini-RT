@@ -126,6 +126,56 @@ void	parse_light(t_token *head_token, t_scene *scene)
 	scene->lightes = tmp_array_light;
 	scene->num_lights++;
 }
+void	parse_sphere(t_token *head_token, t_scene *scene)
+{
+	t_sphere sphere;
+	t_sphere *tmp_array_sphere;
+	int i;
+
+	i = 0;
+	sphere.id = "sp";
+	sphere.sphere_center = parse_coordinates(head_token->next->value);
+	sphere.diameter = ft_atoi_modf(head_token->next->next->value);
+	sphere.color = parse_color(head_token->next->next->next->value);
+	tmp_array_sphere = malloc(sizeof(t_sphere) * (scene->num_sphere + 1));
+	if (!tmp_array_sphere)
+		exit(1); 
+	while (i < scene->num_sphere)
+	{
+		tmp_array_sphere[i] = scene->spheres[i];
+		i++;
+	}
+	tmp_array_sphere[scene->num_sphere] = sphere;
+	if (scene->spheres)
+		free(scene->spheres);
+	scene->spheres = tmp_array_sphere;
+	scene->num_sphere++;
+}
+
+void	parse_plane(t_token *head_token, t_scene *scene)
+{
+	t_plane plane;
+	t_plane	*plane_array;
+	int i;
+
+	i = 0;
+	plane.id = "pl";
+	plane.point_center = parse_coordinates(head_token->next->value); 
+	plane.normalized_vector = parse_coordinates(head_token->next->next->value);
+	plane.color = parse_color(head_token->next->next->next->value);
+	if (!plane_array)
+		exit(1); 
+	while (i < scene->num_planes)
+	{
+		plane_array[i] = scene->planes[i];
+		i++;
+	}
+	plane_array[scene->num_planes] = plane;
+	if (scene->planes)
+		free(scene->planes);
+	scene->planes = plane_array;
+	scene->num_planes++;
+}
 
 void	parse_to_scene(char *line, t_scene *scene)
 {
@@ -153,8 +203,10 @@ void	parse_to_scene(char *line, t_scene *scene)
 		parse_camera(head_token, scene);
 	if (ft_strcmp(head_token->value, "L") == 0)
 		parse_light(head_token, scene);
-	// if (ft_strcmp(head_token->value, "sp") == 0)
-	// 	parse_light(head_token, scene);	
+	if (ft_strcmp(head_token->value, "sp") == 0)
+		parse_sphere(head_token, scene);
+	if (ft_strcmp(head_token->value, "pl") == 0)
+		parse_plane(head_token, scene);
 	// printf("ambient light ration ==> [%f]\n", scene->ambient_light.ratio);
 	// printf("ambient light colors ==> [%f],[%f],[%f]\n", scene->ambient_light.color.red, scene->ambient_light.color.green, scene->ambient_light.color.blue);
 	// printf("CAMERA fov==> [%d]", scene->camera.fov);

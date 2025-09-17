@@ -56,7 +56,7 @@ typedef struct s_sphere
 typedef struct s_plane
 {
 	char *id;
-	t_coordinates point;
+	t_coordinates point_center;
 	t_coordinates normalized_vector;
 	t_color color;
 }		t_plane;
