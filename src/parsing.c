@@ -177,6 +177,14 @@ void	parse_plane(t_token *head_token, t_scene *scene)
 	scene->num_planes++;
 }
 
+void	parse_cylinder(t_token *head_token, t_scene *scene)
+{
+	t_cylinder	cylinder;
+	t_cylinder	*cylinder_array;
+
+	
+}
+
 void	parse_to_scene(char *line, t_scene *scene)
 {
 	char *trim;
@@ -207,6 +215,9 @@ void	parse_to_scene(char *line, t_scene *scene)
 		parse_sphere(head_token, scene);
 	if (ft_strcmp(head_token->value, "pl") == 0)
 		parse_plane(head_token, scene);
+	if (ft_strcmp(head_token->value, "cy") == 0)
+		parse_cylinder(head_token, scene);
+	
 	// printf("ambient light ration ==> [%f]\n", scene->ambient_light.ratio);
 	// printf("ambient light colors ==> [%f],[%f],[%f]\n", scene->ambient_light.color.red, scene->ambient_light.color.green, scene->ambient_light.color.blue);
 	// printf("CAMERA fov==> [%d]", scene->camera.fov);
