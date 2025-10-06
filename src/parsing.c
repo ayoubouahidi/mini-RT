@@ -38,7 +38,7 @@ t_coordinates	parse_coordinates(char *coord_str)
 	char			**coord;
 
 	if (ft_count_word(coord_str, ',') != 3)
-		exit(1); // handle error
+		error_handler("Invalid coordinate format: expected x,y,z");
 	coord = ft_split(coord_str, ',');
 	coordinates.x = ft_atoi_modf(coord[0]);
 	coordinates.y = ft_atoi_modf(coord[1]);
@@ -56,7 +56,7 @@ t_color	parse_color(char *color_str)
 	char	**colors;
 
 	if (ft_count_word(color_str, ',') != 3)
-		exit(1); // handle error
+		error_handler("Invalid color format: expected R,G,B");
 	colors = ft_split(color_str, ',');
 	color.red = ft_atoi(colors[0]);
 	color.green = ft_atoi(colors[1]);
@@ -159,15 +159,13 @@ void	parse_sphere(t_token *head_token, t_scene *scene)
 	sphere.id = "sp";
 	sphere.sphere_center = parse_coordinates(head_token->next->value);
 	sphere.diameter = ft_atoi_modf(head_token->next->next->value);
-	if (sphere.sphere_center.x < -1.0 || sphere.sphere_center.x > 1.0 ||
-		sphere.sphere_center.y < -1.0 || sphere.sphere_center.y > 1.0 ||
-		sphere.sphere_center.z < -1.0 || sphere.sphere_center.z > 1.0)
-		return (error_handler("vector should be in [-1.0, 1.0]"));
+	if (sphere.diameter <= 0.0)
+		return (error_handler("diameter must be positive"));
 	sphere.color = parse_color(head_token->next->next->next->value);
 	if (sphere.color.red < 0 || sphere.color.red > 255
 		|| sphere.color.green < 0 || sphere.color.green > 255
 		|| sphere.color.blue < 0 || sphere.color.blue > 255)
-		return (error_handler("Color values must be between 0 and 255"));
+		return (error_handler("color values must be between 0 and 255"));
 	tmp_array_sphere = malloc(sizeof(t_sphere) * (scene->num_sphere + 1));
 	if (!tmp_array_sphere)
 		exit(1);
@@ -193,7 +191,15 @@ void	parse_plane(t_token *head_token, t_scene *scene)
 	plane.id = "pl";
 	plane.point_center = parse_coordinates(head_token->next->value);
 	plane.normalized_vector = parse_coordinates(head_token->next->next->value);
+	if (plane.normalized_vector.x < -1.0 || plane.normalized_vector.x > 1.0 ||
+		plane.normalized_vector.y < -1.0 || plane.normalized_vector.y > 1.0 ||
+		plane.normalized_vector.z < -1.0 || plane.normalized_vector.z > 1.0)
+		return (error_handler("normal vector should be in [-1.0, 1.0]"));
 	plane.color = parse_color(head_token->next->next->next->value);
+	if (plane.color.red < 0 || plane.color.red > 255
+		|| plane.color.green < 0 || plane.color.green > 255
+		|| plane.color.blue < 0 || plane.color.blue > 255)
+		return (error_handler("xolor values must be between 0 and 255"));
 	plane_array = malloc(sizeof(t_plane) * (scene->num_planes + 1));
 	if (!plane_array)
 		exit(1);
@@ -209,11 +215,45 @@ void	parse_plane(t_token *head_token, t_scene *scene)
 	scene->num_planes++;
 }
 
-// void	parse_cylinder(t_token *head_token, t_scene *scene)
-// {
-// 	t_cylinder	cylinder;
-// 	t_cylinder	*cylinder_array;
-// }
+void	parse_cylinder(t_token *head_token, t_scene *scene)
+{
+	t_cylinder	cylinder;
+	t_cylinder	*cylinder_array;
+	int i;
+
+	i = 0;
+	cylinder.id = "cy";
+	cylinder.center_cylinder = parse_coordinates(head_token->next->value);
+	cylinder.normalized_vector = parse_coordinates(head_token->next->next->value);
+	if (cylinder.normalized_vector.x < -1.0 || cylinder.normalized_vector.x > 1.0 || 
+		cylinder.normalized_vector.y < -1.0 || cylinder.normalized_vector.y > 1.0 || 
+		cylinder.normalized_vector.z < -1.0 || cylinder.normalized_vector.z > 1.0)
+		return (error_handler("cylinder axis vector should be in [-1.0, 1.0]"));
+	cylinder.diameter = ft_atoi_modf(head_token->next->next->next->value);
+	if (cylinder.diameter <= 0.0)
+		return (error_handler("diameter must be positive"));
+	cylinder.height = ft_atoi_modf(head_token->next->next->next->next->value);
+	if (cylinder.height <= 0.0)
+		return (error_handler("height must be positive"));
+	cylinder.color = parse_color(head_token->next->next->next->next->next->value);
+	if (cylinder.color.red < 0 || cylinder.color.red > 255
+		|| cylinder.color.green < 0 || cylinder.color.green > 255
+		|| cylinder.color.blue < 0 || cylinder.color.blue > 255)
+		return (error_handler("color values must be between 0 and 255"));
+	cylinder_array = malloc(sizeof(t_cylinder) * (scene->num_cylinder + 1));
+	if (!cylinder_array)
+		exit(1);
+	while (i < scene->num_cylinder)
+	{
+		cylinder_array[i] = scene->cylinders[i];
+		i++;
+	}
+	cylinder_array[scene->num_cylinder] = cylinder;
+	if (scene->cylinders)
+		free(scene->cylinders);
+	scene->cylinders = cylinder_array;
+	scene->num_cylinder++;
+}
 
 void	parse_to_scene(char *line, t_scene *scene)
 {
@@ -245,8 +285,8 @@ void	parse_to_scene(char *line, t_scene *scene)
 		parse_sphere(head_token, scene);
 	if (ft_strcmp(head_token->value, "pl") == 0)
 		parse_plane(head_token, scene);
-	// if (ft_strcmp(head_token->value, "cy") == 0)
-	// 	parse_cylinder(head_token, scene);
+	if (ft_strcmp(head_token->value, "cy") == 0)
+		parse_cylinder(head_token, scene);
 	// printf("ambient light ration ==> [%f]\n", scene->ambient_light.ratio);
 	// printf("ambient light colors ==> [%f],[%f],[%f]\n",scene->ambient_light.color.red, scene->ambient_light.color.green,scene->ambient_light.color.blue);
 	// printf("CAMERA fov==> [%d]", scene->camera.fov);
