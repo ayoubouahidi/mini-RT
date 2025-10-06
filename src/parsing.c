@@ -11,9 +11,9 @@
 /* ************************************************************************** */
 
 //#include "../include/minirt.c"
-#include "../libft/libft.h"
 #include "../include/parse.h"
-
+#include "../libft/libft.h"
+#include <math.h>
 
 bool	name_of_file(char *name)
 {
@@ -32,12 +32,10 @@ bool	valid_file(int ac, char **av)
 	return (0);
 }
 
-
-
-t_coordinates parse_coordinates(char *coord_str)
+t_coordinates	parse_coordinates(char *coord_str)
 {
-	t_coordinates coordinates;
-	char **coord;
+	t_coordinates	coordinates;
+	char			**coord;
 
 	if (ft_count_word(coord_str, ',') != 3)
 		exit(1); // handle error
@@ -52,10 +50,10 @@ t_coordinates parse_coordinates(char *coord_str)
 	return (coordinates);
 }
 
-t_color parse_color(char *color_str)
+t_color	parse_color(char *color_str)
 {
-	t_color color;
-	char **colors;
+	t_color	color;
+	char	**colors;
 
 	if (ft_count_word(color_str, ',') != 3)
 		exit(1); // handle error
@@ -72,49 +70,73 @@ t_color parse_color(char *color_str)
 
 void	parse_ambient_light(t_token *head_token, t_scene *scene)
 {
-	t_ambient_light ambient_light;
-	t_token *token;
+	t_ambient_light	ambient_light;
+	t_token			*token;
 
 	token = head_token;
+	if (!token || !token->next || !token->next->next)
+		return (error_handler("Invalid ambient light format"));
 	// printf("token value in ambient light [%s]\n", token->value);
 	ambient_light.id = "A";
 	ambient_light.ratio = ft_atoi_modf(token->next->value);
+	if (ambient_light.ratio < 0.0 || ambient_light.ratio > 1.0)
+		return (error_handler("Ambient light ratio must be between 0.0 and 1.0"));
 	ambient_light.color = parse_color(token->next->next->value);
+	if (ambient_light.color.red < 0 || ambient_light.color.red > 255
+		|| ambient_light.color.green < 0 || ambient_light.color.green > 255
+		|| ambient_light.color.blue < 0 || ambient_light.color.blue > 255)
+		return (error_handler("Color values must be between 0 and 255"));
 	// printf("ambient light ration ==> [%f]\n", ambient_light.ratio);
-	// printf("ambient light colors ==> [%f],[%f],[%f]\n", ambient_light.color.red, ambient_light.color.green, ambient_light.color.blue);
+	// printf("ambient light colors ==> [%f],[%f],[%f]\n",ambient_light.color.red, ambient_light.color.green,ambient_light.color.blue);
 	scene->ambient_light = ambient_light;
 	// scene++;
 }
 
 void	parse_camera(t_token *head_token, t_scene *scene)
 {
-	t_token *token;
-	t_camera camera;
+	t_token		*token;
+	t_camera	camera;
 
 	token = head_token;
+	if (!token || !token->next || !token->next->next || !token->next->next->next)
+		return (error_handler("invalid camera format"));
 	camera.id = "C";
 	camera.viewpoint = parse_coordinates(head_token->next->value);
+	if (camera.viewpoint.x < -50.0 || camera.viewpoint.x > 50.0 ||
+		camera.viewpoint.y < -50.0 || camera.viewpoint.y > 50.0 ||
+		camera.viewpoint.z < -50.0 || camera.viewpoint.z > 50.0)
+		return (error_handler("camera viewpoint coordinates should be in  [-50.0, 50.0]"));
 	camera.orientation = parse_coordinates(head_token->next->next->value);
+	if (camera.orientation.x < -1.0 || camera.orientation.x > 1.0 ||
+		camera.orientation.y < -1.0 || camera.orientation.y > 1.0 ||
+		camera.orientation.z < -1.0 || camera.orientation.z > 1.0)
+		return (error_handler("camera orientation vector should be in [-1.0, 1.0]"));
 	camera.fov = ft_atoi(head_token->next->next->next->value);
+	if (camera.fov < 0 || camera.fov > 180)
+		return (error_handler("Camera FOV should be in [0, 180] "));
 	scene->camera = camera;
 }
 
 void	parse_light(t_token *head_token, t_scene *scene)
 {
-	t_light light;
-	t_light *tmp_array_light;
-	int i;
+	t_light	light;
+	t_light	*tmp_array_light;
+	int		i;
 
 	i = 0;
 	light.id = "L";
 	light.light_point = parse_coordinates(head_token->next->value);
 	light.brightness_ratio = ft_atoi_modf(head_token->next->next->value);
 	if (light.brightness_ratio < 0.0 || light.brightness_ratio > 1.0)
-		return ;
+		return (error_handler("the light brightness ratio should be in the range [0.0,1.0]"));
 	light.color = parse_color(head_token->next->next->next->value);
+	if (light.color.red < 0 || light.color.red > 255
+		|| light.color.green < 0 || light.color.green > 255
+		|| light.color.blue < 0 || light.color.blue > 255)
+		return (error_handler("Color values must be between 0 and 255"));
 	tmp_array_light = malloc(sizeof(t_light) * (scene->num_lights + 1));
 	if (!tmp_array_light)
-		exit(1); 
+		exit(1);
 	while (i < scene->num_lights)
 	{
 		tmp_array_light[i] = scene->lightes[i];
@@ -126,20 +148,29 @@ void	parse_light(t_token *head_token, t_scene *scene)
 	scene->lightes = tmp_array_light;
 	scene->num_lights++;
 }
+
 void	parse_sphere(t_token *head_token, t_scene *scene)
 {
-	t_sphere sphere;
-	t_sphere *tmp_array_sphere;
-	int i;
+	t_sphere	sphere;
+	t_sphere	*tmp_array_sphere;
+	int			i;
 
 	i = 0;
 	sphere.id = "sp";
 	sphere.sphere_center = parse_coordinates(head_token->next->value);
 	sphere.diameter = ft_atoi_modf(head_token->next->next->value);
+	if (sphere.sphere_center.x < -1.0 || sphere.sphere_center.x > 1.0 ||
+		sphere.sphere_center.y < -1.0 || sphere.sphere_center.y > 1.0 ||
+		sphere.sphere_center.z < -1.0 || sphere.sphere_center.z > 1.0)
+		return (error_handler("vector should be in [-1.0, 1.0]"));
 	sphere.color = parse_color(head_token->next->next->next->value);
+	if (sphere.color.red < 0 || sphere.color.red > 255
+		|| sphere.color.green < 0 || sphere.color.green > 255
+		|| sphere.color.blue < 0 || sphere.color.blue > 255)
+		return (error_handler("Color values must be between 0 and 255"));
 	tmp_array_sphere = malloc(sizeof(t_sphere) * (scene->num_sphere + 1));
 	if (!tmp_array_sphere)
-		exit(1); 
+		exit(1);
 	while (i < scene->num_sphere)
 	{
 		tmp_array_sphere[i] = scene->spheres[i];
@@ -154,17 +185,18 @@ void	parse_sphere(t_token *head_token, t_scene *scene)
 
 void	parse_plane(t_token *head_token, t_scene *scene)
 {
-	t_plane plane;
+	t_plane	plane;
 	t_plane	*plane_array;
-	int i;
+	int		i;
 
 	i = 0;
 	plane.id = "pl";
-	plane.point_center = parse_coordinates(head_token->next->value); 
+	plane.point_center = parse_coordinates(head_token->next->value);
 	plane.normalized_vector = parse_coordinates(head_token->next->next->value);
 	plane.color = parse_color(head_token->next->next->next->value);
+	plane_array = malloc(sizeof(t_plane) * (scene->num_planes + 1));
 	if (!plane_array)
-		exit(1); 
+		exit(1);
 	while (i < scene->num_planes)
 	{
 		plane_array[i] = scene->planes[i];
@@ -177,20 +209,18 @@ void	parse_plane(t_token *head_token, t_scene *scene)
 	scene->num_planes++;
 }
 
-void	parse_cylinder(t_token *head_token, t_scene *scene)
-{
-	t_cylinder	cylinder;
-	t_cylinder	*cylinder_array;
-
-	
-}
+// void	parse_cylinder(t_token *head_token, t_scene *scene)
+// {
+// 	t_cylinder	cylinder;
+// 	t_cylinder	*cylinder_array;
+// }
 
 void	parse_to_scene(char *line, t_scene *scene)
 {
-	char *trim;
-	t_lexer *lexer;
-	t_token *token;
-	t_token *head_token;
+	char	*trim;
+	t_lexer	*lexer;
+	t_token	*token;
+	t_token	*head_token;
 
 	head_token = NULL;
 	trim = ft_strtrim(line, " ");
@@ -201,9 +231,9 @@ void	parse_to_scene(char *line, t_scene *scene)
 		token = tokenize(lexer);
 		ft_lstadd_back_token(&head_token, token);
 		if (ft_strcmp(token->value, "END") == 0)
-			break;
+			break ;
 	}
-	// print all the token 
+	// print all the token
 	print_linked_list(head_token);
 	if (ft_strcmp(head_token->value, "A") == 0)
 		parse_ambient_light(head_token, scene);
@@ -215,19 +245,18 @@ void	parse_to_scene(char *line, t_scene *scene)
 		parse_sphere(head_token, scene);
 	if (ft_strcmp(head_token->value, "pl") == 0)
 		parse_plane(head_token, scene);
-	if (ft_strcmp(head_token->value, "cy") == 0)
-		parse_cylinder(head_token, scene);
-	
+	// if (ft_strcmp(head_token->value, "cy") == 0)
+	// 	parse_cylinder(head_token, scene);
 	// printf("ambient light ration ==> [%f]\n", scene->ambient_light.ratio);
-	// printf("ambient light colors ==> [%f],[%f],[%f]\n", scene->ambient_light.color.red, scene->ambient_light.color.green, scene->ambient_light.color.blue);
+	// printf("ambient light colors ==> [%f],[%f],[%f]\n",scene->ambient_light.color.red, scene->ambient_light.color.green,scene->ambient_light.color.blue);
 	// printf("CAMERA fov==> [%d]", scene->camera.fov);
 }
 
 void	parser_file(char *filename, t_scene *scene)
 {
-	int fd;
-	int lines_nums;
-	char *line;
+	int		fd;
+	int		lines_nums;
+	char	*line;
 
 	fd = open(filename, O_RDONLY);
 	lines_nums = 0;
@@ -236,10 +265,10 @@ void	parser_file(char *filename, t_scene *scene)
 		line = get_next_line(fd);
 		// printf("test\n");
 		if (line == NULL)
-			break;
+			break ;
 		lines_nums++;
 		if (line[0] == '\0' || line[0] == '\n' || line[0] == '#')
-			continue;
+			continue ;
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
 		parse_to_scene(line, scene);

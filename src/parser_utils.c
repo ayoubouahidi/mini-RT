@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../include/parse.h"
-
 
 t_lexer	*creat_lexer(char *content)
 {
@@ -64,7 +62,6 @@ t_token	*string_process(t_lexer *lexer)
 	return (creat_token(value));
 }
 
-
 t_token	*tokenize(t_lexer *lexer)
 {
 	while (lexer->c != '\0' && lexer->i < ft_strlen(lexer->content))
@@ -73,12 +70,11 @@ t_token	*tokenize(t_lexer *lexer)
 			|| lexer->c == '\r' || lexer->c == '\f' || lexer->c == '\v')
 			while (lexer->c == ' ' || lexer->c == '\t' || lexer->c == '\n'
 				|| lexer->c == '\r' || lexer->c == '\f' || lexer->c == '\v')
-				increment_using_index(lexer);	
-		return (string_process(lexer));	
+				increment_using_index(lexer);
+		return (string_process(lexer));
 	}
 	return (creat_token("END"));
 }
-
 
 void	ft_lstadd_back_token(t_token **lst, t_token *new)
 {
@@ -97,24 +93,26 @@ void	ft_lstadd_back_token(t_token **lst, t_token *new)
 		*lst = new;
 }
 
-int ft_strcmp(const char *s1, const char *s2) {
-    while (*s1 && (*s1 == *s2)) {
-        s1++;
-        s2++;
-    }
-    return *(const unsigned char*)s1 - *(const unsigned char*)s2;
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 && (*s1 == *s2))
+	{
+		s1++;
+		s2++;
+	}
+	return (*(const unsigned char *)s1 - *(const unsigned char *)s2);
 }
 
 void	print_linked_list(t_token *head_token)
 {
-	t_token *tmp = head_token;
+	t_token	*tmp;
 
+	tmp = head_token;
 	while (tmp)
 	{
 		printf("TOKEN VALUE ==> [%s] \n", tmp->value);
 		tmp = tmp->next;
 	}
-	
 }
 
 double	check_calcul(char *str, int i)
@@ -171,7 +169,13 @@ size_t	ft_count_word(char *s, char c)
 	{
 		if (*s != c && (*(s + 1) == c || *(s + 1) == 0))
 			w++;
-		s++ ;
+		s++;
 	}
 	return (w);
+}
+
+void	error_handler(char *message)
+{
+	printf("Error: %s\n", message);
+	exit(1);
 }
