@@ -1,11 +1,14 @@
-#include <stdio.h>
+#ifndef PARSE_H
+# define PARSE_H
+
+# include <stdio.h>
 // #include "minilibx-linux/mlx.h"
-#include <stdbool.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include "../get_next_line/get_next_line.h"
-#include "../libft/libft.h"
-#include <stdlib.h>
+# include <stdbool.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include "../get_next_line/get_next_line.h"
+# include "../libft/libft.h"
+# include <stdlib.h>
 
 typedef struct s_color
 {
@@ -71,10 +74,21 @@ typedef struct	s_cylinder
 	t_color color;
 }		t_cylinder;
 
+typedef struct s_img
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}	t_img;
+
+
 typedef struct s_scene
 {
 	void				*mlx;
 	void				*mlx_win;
+	t_img				*img;
 	t_ambient_light		ambient_light;
 	t_camera	camera;
 	t_light *lightes;
@@ -117,3 +131,6 @@ double	check_calcul(char *str, int i);
 double	ft_atoi_modf(char *str);
 size_t	ft_count_word(char *s, char c);
 void	error_handler(char *message);
+
+#endif
+

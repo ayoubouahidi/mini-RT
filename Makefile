@@ -1,10 +1,13 @@
 NAME = mini
 
-CC = cc 
-CFLAGS = -Wall -Wextra -Werror -Imlx
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -I./minilibx-linux
 
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
+
+MLX_DIR = ./minilibx-linux
+MLX_LIB = $(MLX_DIR)/libmlx.a
 
 INCLUDES = -Iincludes -I$(LIBFT_DIR)
 
@@ -12,20 +15,25 @@ SRCS = get_next_line/get_next_line.c  get_next_line/get_next_line_utils.c \
 		src/main.c \
 		src/parser_utils.c  \
 		src/parsing.c \
+		src/sphere.c \
+		
  
 OBJS = $(SRCS:%.c=%.o)
 # OBJ_DIR = .obj
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT) 
-	$(CC) $(CFLAGS) $(INCLUDES) -o $(NAME) $(OBJS) $(LIBFT)
+$(NAME): $(OBJS) $(LIBFT) $(MLX_LIB)
+	$(CC) $(CFLAGS) $(INCLUDES) -o $(NAME) $(OBJS) $(LIBFT) $(MLX_LIB) -lX11 -lXext -lm
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(LIBFT):
 	make -C $(LIBFT_DIR) bonus
+
+$(MLX_LIB):
+	make -C $(MLX_DIR)
 
 # $(OBJ_DIR):
 # 	mkdir .obj

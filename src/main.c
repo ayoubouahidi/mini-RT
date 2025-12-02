@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "../include/minirt.h"
+#include "../include/minirt.h"
 #include "../libft/libft.h"
 #include "../include/parse.h"
 
@@ -31,4 +31,5 @@ int main(int ac, char **av)
 		return (1);
 	
 	parser_file(av[1], &scene);
+	sphere(&scene);
 }
