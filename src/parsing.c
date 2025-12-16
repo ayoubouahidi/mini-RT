@@ -161,6 +161,9 @@ void	parse_sphere(t_token *head_token, t_scene *scene)
 	sphere.diameter = ft_atoi_modf(head_token->next->next->value);
 	if (sphere.diameter <= 0.0)
 		return (error_handler("diameter must be positive"));
+
+	/* store radius for intersection math */
+	sphere.radius = sphere.diameter / 2.0;
 	sphere.color = parse_color(head_token->next->next->next->value);
 	if (sphere.color.red < 0 || sphere.color.red > 255
 		|| sphere.color.green < 0 || sphere.color.green > 255
@@ -195,6 +198,13 @@ void	parse_plane(t_token *head_token, t_scene *scene)
 		plane.normalized_vector.y < -1.0 || plane.normalized_vector.y > 1.0 ||
 		plane.normalized_vector.z < -1.0 || plane.normalized_vector.z > 1.0)
 		return (error_handler("normal vector should be in [-1.0, 1.0]"));
+
+	/* normalize plane normal to ensure consistency */
+	plane.normalized_vector = (t_coordinates){
+		plane.normalized_vector.x / sqrt(plane.normalized_vector.x * plane.normalized_vector.x + plane.normalized_vector.y * plane.normalized_vector.y + plane.normalized_vector.z * plane.normalized_vector.z),
+		plane.normalized_vector.y / sqrt(plane.normalized_vector.x * plane.normalized_vector.x + plane.normalized_vector.y * plane.normalized_vector.y + plane.normalized_vector.z * plane.normalized_vector.z),
+		plane.normalized_vector.z / sqrt(plane.normalized_vector.x * plane.normalized_vector.x + plane.normalized_vector.y * plane.normalized_vector.y + plane.normalized_vector.z * plane.normalized_vector.z)
+	};
 	plane.color = parse_color(head_token->next->next->next->value);
 	if (plane.color.red < 0 || plane.color.red > 255
 		|| plane.color.green < 0 || plane.color.green > 255
@@ -229,6 +239,13 @@ void	parse_cylinder(t_token *head_token, t_scene *scene)
 		cylinder.normalized_vector.y < -1.0 || cylinder.normalized_vector.y > 1.0 || 
 		cylinder.normalized_vector.z < -1.0 || cylinder.normalized_vector.z > 1.0)
 		return (error_handler("cylinder axis vector should be in [-1.0, 1.0]"));
+
+	/* normalize cylinder axis vector */
+	cylinder.normalized_vector = (t_coordinates){
+		cylinder.normalized_vector.x / sqrt(cylinder.normalized_vector.x * cylinder.normalized_vector.x + cylinder.normalized_vector.y * cylinder.normalized_vector.y + cylinder.normalized_vector.z * cylinder.normalized_vector.z),
+		cylinder.normalized_vector.y / sqrt(cylinder.normalized_vector.x * cylinder.normalized_vector.x + cylinder.normalized_vector.y * cylinder.normalized_vector.y + cylinder.normalized_vector.z * cylinder.normalized_vector.z),
+		cylinder.normalized_vector.z / sqrt(cylinder.normalized_vector.x * cylinder.normalized_vector.x + cylinder.normalized_vector.y * cylinder.normalized_vector.y + cylinder.normalized_vector.z * cylinder.normalized_vector.z)
+	};
 	cylinder.diameter = ft_atoi_modf(head_token->next->next->next->value);
 	if (cylinder.diameter <= 0.0)
 		return (error_handler("diameter must be positive"));

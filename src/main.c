@@ -24,12 +24,15 @@ int main(int ac, char **av)
 {
 	t_scene scene;
 
-	
-	// init(&scene);
 	ft_bzero(&scene, sizeof(scene));
+	scene.img = malloc(sizeof(t_img));
+	if (!scene.img)
+		return (1);
 	if (valid_file(ac, av))
 		return (1);
-	
 	parser_file(av[1], &scene);
-	sphere(&scene);
+	init_camera(&scene.camera);
+	render(&scene);
+	
+	return (0);
 }

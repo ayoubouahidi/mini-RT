@@ -1,5 +1,85 @@
-a ayoub ouahidi
-A 0.7 255,50,200
-C -50.0,0,20 0,0,1 70
+# Mini RT Complete Scene - All Shapes!
+# This scene demonstrates spheres, planes, and cylinders
 
-L -70.0,50.0,0.0 0.6 10,0,255
+# ===== SCENE SETUP =====
+
+# Ambient lighting (soft base illumination)
+A  0.2                                      255,255,255
+
+# Camera: positioned to see everything
+C  0,3,-12           0,-0.2,1               60
+
+# Main light (top-left)
+L  -8,10,-5          0.9                    255,255,255
+
+# Fill light (right, softer and slightly blue)
+L  6,5,-3            0.4                    200,220,255
+
+# ===== FLOOR PLANE =====
+# Creates the ground/floor
+pl 0,-2,0            0,1,0                  100,100,100
+
+# ===== BACK WALL PLANE =====
+# Creates a background wall
+pl 0,0,15            0,0,-1                 150,150,200
+
+# ===== SPHERES =====
+
+# Large red sphere (center-left)
+sp -3,0,2            3.0                    255,60,60
+
+# Medium green sphere (center-right)
+sp 3,0,3             2.5                    60,255,60
+
+# Small blue sphere (floating above)
+sp 0,2,1             1.5                    60,60,255
+
+# Tiny yellow sphere (top)
+sp -1,4,2            0.8                    255,255,60
+
+# ===== CYLINDERS =====
+
+# Vertical cylinder (column) - red
+cy -6,0,5            0,1,0       2.0    5.0     200,50,50
+
+# Horizontal cylinder (log) - brown
+cy 6,-1,6            1,0,0       1.5    4.0     139,90,43
+
+# Tilted cylinder (interesting angle) - blue
+cy 0,-1,8            0.7,1,0.3   1.2    4.5     50,100,200
+
+# Small vertical cylinder (pencil) - yellow
+cy 4,0,2             0,1,0       0.5    3.0     255,220,50
+
+# ===== ADDITIONAL DECORATIVE ELEMENTS =====
+
+# More small spheres for visual interest
+sp -5,-1,4           0.6                    255,100,200
+sp 5,-1,4            0.6                    100,255,200
+sp 0,-1,0            0.8                    255,200,100
+
+# Ground-level cylinders (like pipes)
+cy -2,-1.5,0         1,0,0       0.8    3.0     80,80,80
+cy 2,-1.5,1          1,0,0.5     0.7    2.5     90,90,90
+
+
+# ===== SIMPLE TEST SCENES =====
+# Uncomment these for simpler testing:
+
+# MINIMAL SCENE (just basics)
+# A  0.3                      255,255,255
+# C  0,0,-8    0,0,1          70
+# L  -3,5,-3   0.8            255,255,255
+# sp 0,0,0     2.0            255,0,0
+# pl 0,-2,0    0,1,0          100,100,100
+# cy 3,0,2     0,1,0   1.5  4.0   0,0,255
+
+# CYLINDER FOCUS SCENE
+# A  0.25                     255,255,255
+# C  0,2,-10   0,-0.15,1      60
+# L  -5,8,-3   0.9            255,255,255
+# pl 0,-2,0    0,1,0          80,80,80
+# cy 0,0,0     0,1,0   2.0  5.0    255,0,0
+# cy -4,0,2    0,1,0   1.5  4.0    0,255,0
+# cy 4,0,2     0,1,0   1.5  4.0    0,0,255
+# cy 0,0,5     1,0,0   1.2  4.0    255,255,0

@@ -15,8 +15,10 @@ SRCS = get_next_line/get_next_line.c  get_next_line/get_next_line_utils.c \
 		src/main.c \
 		src/parser_utils.c  \
 		src/parsing.c \
-		src/sphere.c \
-		
+		src/rendring.c \
+		src/ray.c \
+		src/vectors.c \
+		src/hits.c
  
 OBJS = $(SRCS:%.c=%.o)
 # OBJ_DIR = .obj

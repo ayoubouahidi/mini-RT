@@ -10,6 +10,7 @@
 # include "../libft/libft.h"
 # include <stdlib.h>
 
+
 typedef struct s_color
 {
 	double	red;
@@ -36,6 +37,10 @@ typedef struct s_camera
 	char	*id;
 	t_coordinates	viewpoint;
 	t_coordinates	orientation;
+	t_coordinates	pos;
+	t_coordinates	direction;
+	t_coordinates	right;
+	t_coordinates	up;
 	int fov;
 }		t_camera;
 
@@ -118,6 +123,12 @@ typedef struct s_token
 	struct s_token *next;
 }	t_token;
 
+typedef struct s_ray
+{
+	t_coordinates	origin;
+	t_coordinates	direction;
+}	t_ray;
+
 // functions
 
 bool	valid_file(int ac, char **av);
@@ -131,6 +142,23 @@ double	check_calcul(char *str, int i);
 double	ft_atoi_modf(char *str);
 size_t	ft_count_word(char *s, char c);
 void	error_handler(char *message);
+
+t_coordinates   vec_addition(t_coordinates a, t_coordinates b);
+t_coordinates   vec_substraction(t_coordinates a, t_coordinates b);
+t_coordinates   echelle_vecteur(t_coordinates v, double s);
+double  produit_scalaire(t_coordinates a, t_coordinates b);
+t_coordinates   produit_vectorial(t_coordinates a, t_coordinates b);
+t_coordinates   vec_normalize(t_coordinates v);
+t_coordinates   vec3_add(t_coordinates a, t_coordinates b);
+t_coordinates   vec3_mult(t_coordinates v, double s);
+t_coordinates   vec3_normalize(t_coordinates v);
+
+t_ray	*create_ray(t_camera *camera, int x, int y, t_scene *scene);
+void	free_ray(t_ray *ray);
+void	render(t_scene *scene);
+int		colors_and_hits(t_scene *scene, t_ray *ray);
+
+void	init_camera(t_camera *camera);
 
 #endif
 
