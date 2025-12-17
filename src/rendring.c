@@ -11,28 +11,8 @@ void render(t_scene *scene)
     t_ray *ray;
 
     scene->mlx = mlx_init();
-    if (!scene->mlx)
-    {
-        printf("Error: Failed to initialize MLX\n");
-        return;
-    }
     scene->mlx_win = mlx_new_window(scene->mlx , 800, 600, "Mini RT");
-    if (!scene->mlx_win)
-    {
-        printf("Error: Failed to create MLX window\n");
-        return;
-    }
-    if (!scene->img)
-    {
-        printf("Error: scene->img is NULL\n");
-        return;
-    }
     scene->img->img = mlx_new_image(scene->mlx, 800, 600);
-    if (!scene->img->img)
-    {
-        printf("Error: Failed to create MLX image\n");
-        return;
-    }
     y = 0;
     while (y < 600)
     {

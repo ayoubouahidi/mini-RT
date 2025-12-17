@@ -13,27 +13,6 @@ t_coordinates ray_at(t_ray *ray, double t)
     return result;
 }
 
-
-int color_to_int(t_color color, double intensity)
-{
-    int r, g, b;
-    
-    r = (int)(color.red * intensity * 255.0);
-    g = (int)(color.green * intensity * 255.0);
-    b = (int)(color.blue * intensity * 255.0);
-    
-    if (r > 255) r = 255;
-    if (g > 255) g = 255;
-    if (b > 255) b = 255;
-    if (r < 0) r = 0;
-    if (g < 0) g = 0;
-    if (b < 0) b = 0;
-    
-    return (r << 16) | (g << 8) | b;
-}
-
-//
-
 t_hit   intersection_cylinder(t_ray *ray, t_cylinder *cylinder)
 {
     t_hit			hit;
@@ -87,46 +66,25 @@ t_hit   intersection_plane(t_ray *ray, t_plane *plane)
     ft_bzero(&hit, sizeof(hit));
     double denom, t;
     t_coordinates oc;
-    
-    /* Check if ray is parallel to plane */
-    /* denom = D · N */
+
     denom = produit_scalaire(ray->direction, plane->normalized_vector);
-    
-    /* If denom is very small, ray is parallel to plane */
     if (fabs(denom) < 0.0001)
-        return hit; /* No intersection */
-    
-    /* Calculate intersection distance */
-    /* oc = P0 - O */
+        return hit; 
     oc = vec_substraction(plane->point_center, ray->origin);
-    
-    /* t = (oc · N) / (D · N) */
     t = produit_scalaire(oc, plane->normalized_vector) / denom;
-    
-    /* Check if intersection is behind camera */
     if (t < 0.001)
-        return hit; /* Behind camera or too close (avoid self-intersection) */
-    
-    /* Valid intersection! */
+        return hit;
     hit.hit = 1;
     hit.distance = t;
     hit.point = ray_at(ray, t);
     hit.normal = plane->normalized_vector;
-    
-    /* Make sure normal points toward the camera (front face) */
-    /* If ray direction and normal point in same direction, flip normal */
     if (produit_scalaire(ray->direction, hit.normal) > 0)
     {
         hit.normal.x = -hit.normal.x;
         hit.normal.y = -hit.normal.y;
         hit.normal.z = -hit.normal.z;
     }
-    
-    /* Set color and object reference */
     hit.color = plane->color;
-    // hit.object = (void *)plane;
-    // hit.obj_type = 1; /* 1 = plane */
-    
     return hit;
 }
 
@@ -177,8 +135,7 @@ t_hit   hit_objcts(t_scene *scene, t_ray *ray)
 	i = 0;
     ft_bzero(&closest, sizeof(closest));
     closest.distance = 1e30;
-    
-    /* Check spheres */
+
 	while (i < scene->num_sphere && scene->spheres)
 	{
 		current = intersection_sphere(ray, &scene->spheres[i]);	
@@ -186,8 +143,7 @@ t_hit   hit_objcts(t_scene *scene, t_ray *ray)
             closest = current;
 		i++;
 	}
-    
-    /* Check planes */
+
     i = 0;
     while (i < scene->num_planes && scene->planes)
     {
@@ -196,8 +152,7 @@ t_hit   hit_objcts(t_scene *scene, t_ray *ray)
             closest = current;
 		i++; 
     }
-    
-    /* Check cylinders */
+   
     i = 0;
     while (i < scene->num_cylinder && scene->cylinders)
     {
@@ -217,44 +172,11 @@ int colors_and_hits(t_scene *scene, t_ray *ray)
     hit = hit_objcts(scene, ray);
 
     if (!hit.hit)
-        return (135 << 16) | (206 << 8) | 235;
+        return (144 << 16) | (238 << 8) | 144;
 
-    /* Colors are already in 0-255 range, use directly */
     int r = (int)hit.color.red;
     int g = (int)hit.color.green;
     int b = (int)hit.color.blue;
     
     return (r << 16) | (g << 8) | b;
 }
-
-// int colors_and_hits(t_scene *scene, t_ray *ray)
-// {
-// 	// int	color;
-// 	(void)scene;
-// 	(void)ray;
-// 	t_hit hit;
-// 	(void )hit;
-//     static int debug_once = 0;
-
-// 	hit = hit_objcts(scene, ray);
-
-// 	if (!hit.hit)
-//         return (135 << 16) | (206 << 8) | 235;//
-        
-        
-
-//     int r = (int)(hit.color.red * 255);
-//     int g = (int)(hit.color.green * 255);
-//     int b = (int)(hit.color.blue * 255);
-//     if (debug_once == 0)
-//     {
-//         printf("=== FIRST HIT COLOR ===\n");
-//         printf("hit.color.red = %.2f\n", hit.color.red);
-//         printf("hit.color.green = %.2f\n", hit.color.green);
-//         printf("hit.color.blue = %.2f\n", hit.color.blue);
-//         printf("======================\n");
-//         debug_once = 1;
-//     }
-// 	// color = (135 << 16) | (206 << 8) | 235;
-// 	return (r << 16) | (g << 8) | b;
-// }

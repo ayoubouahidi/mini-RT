@@ -42,7 +42,7 @@ t_coordinates   vec_normalize(t_coordinates v)
     return ((t_coordinates){v.x / len, v.y / len, v.z / len});
 }
 
-/* Aliases for compatibility with ray.c */
+// Aliases for compatibility with ray.c 
 t_coordinates   vec3_add(t_coordinates a, t_coordinates b)
 {
     return (vec_addition(a, b));

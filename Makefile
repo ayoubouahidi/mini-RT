@@ -21,7 +21,7 @@ SRCS = get_next_line/get_next_line.c  get_next_line/get_next_line_utils.c \
 		src/hits.c
  
 OBJS = $(SRCS:%.c=%.o)
-# OBJ_DIR = .obj
+
 
 all: $(NAME)
 
@@ -37,11 +37,6 @@ $(LIBFT):
 $(MLX_LIB):
 	make -C $(MLX_DIR)
 
-# $(OBJ_DIR):
-# 	mkdir .obj
-
-# $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
-# 	$(CC) $(CFLAGS)  -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
