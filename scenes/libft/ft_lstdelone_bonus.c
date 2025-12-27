@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstdelone_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayouahid <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hamel-yo <hamel-yo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/11 16:57:37 by ayouahid          #+#    #+#             */
-/*   Updated: 2025/12/21 09:12:28 by hamel-yo         ###   ########.fr       */
+/*   Created: 2024/11/19 01:42:18 by hamel-yo          #+#    #+#             */
+/*   Updated: 2024/11/21 09:44:01 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/mrt.h"
+#include "libft.h"
 
-void	print_scene(t_scene scene);
-
-int	main(int ac, char **av)
+void	ft_lstdelone(t_list *lst, void (*del)(void*))
 {
-	t_scene	scene;
-
-	scene = pars_scene(ac, av);
-	//print_scene(scene);
-	put_imageonwindow(scene, av[1]);
-	while (1){}
-	gc(0);
+	if (lst == NULL || del == NULL)
+		return ;
+	del(lst->content);
+	free(lst);
 }

@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayouahid <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hamel-yo <hamel-yo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/11 16:57:37 by ayouahid          #+#    #+#             */
-/*   Updated: 2025/12/21 09:12:28 by hamel-yo         ###   ########.fr       */
+/*   Created: 2024/11/10 20:08:29 by hamel-yo          #+#    #+#             */
+/*   Updated: 2024/11/21 08:13:58 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/mrt.h"
+#include "libft.h"
 
-void	print_scene(t_scene scene);
-
-int	main(int ac, char **av)
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
-	t_scene	scene;
+	unsigned int	i;
 
-	scene = pars_scene(ac, av);
-	//print_scene(scene);
-	put_imageonwindow(scene, av[1]);
-	while (1){}
-	gc(0);
+	i = 0;
+	if (s == NULL || f == NULL)
+		return ;
+	while (s[i] != 0)
+	{
+		f(i, (s + i));
+		i++;
+	}
 }

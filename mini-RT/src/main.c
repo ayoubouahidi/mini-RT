@@ -6,21 +6,33 @@
 /*   By: ayouahid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:57:37 by ayouahid          #+#    #+#             */
-/*   Updated: 2025/12/21 09:12:28 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/09/12 00:31:47 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/mrt.h"
+#include "../include/minirt.h"
+#include "../libft/libft.h"
+#include "../include/parse.h"
 
-void	print_scene(t_scene scene);
+// void	init(t_scene *scene)
+// {
+// 	scene->ambient_light;
 
-int	main(int ac, char **av)
+// }
+
+int main(int ac, char **av)
 {
-	t_scene	scene;
+	t_scene scene;
 
-	scene = pars_scene(ac, av);
-	//print_scene(scene);
-	put_imageonwindow(scene, av[1]);
-	while (1){}
-	gc(0);
+	ft_bzero(&scene, sizeof(scene));
+	scene.img = malloc(sizeof(t_img));
+	if (!scene.img)
+		return (1);
+	if (valid_file(ac, av))
+		return (1);
+	parser_file(av[1], &scene);
+	init_camera(&scene.camera);
+	render(&scene);
+	
+	return (0);
 }

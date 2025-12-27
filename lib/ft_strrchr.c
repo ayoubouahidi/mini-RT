@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayouahid <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hamel-yo <hamel-yo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/11 16:57:37 by ayouahid          #+#    #+#             */
-/*   Updated: 2025/12/21 09:12:28 by hamel-yo         ###   ########.fr       */
+/*   Created: 2024/11/07 21:49:23 by hamel-yo          #+#    #+#             */
+/*   Updated: 2024/11/14 04:01:35 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/mrt.h"
+#include "../include/libft.h"
 
-void	print_scene(t_scene scene);
-
-int	main(int ac, char **av)
+char	*ft_strrchr(const char *s, int c)
 {
-	t_scene	scene;
+	int	i ;
 
-	scene = pars_scene(ac, av);
-	//print_scene(scene);
-	put_imageonwindow(scene, av[1]);
-	while (1){}
-	gc(0);
+	i = ft_strlen(s);
+	while (i >= 0)
+	{
+		if (s[i] == (char)c)
+			return ((char *)(&s[i]));
+		i--;
+	}
+	return (NULL);
 }

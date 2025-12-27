@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayouahid <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hamel-yo <hamel-yo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/11 16:57:37 by ayouahid          #+#    #+#             */
-/*   Updated: 2025/12/21 09:12:28 by hamel-yo         ###   ########.fr       */
+/*   Created: 2024/11/18 17:54:18 by hamel-yo          #+#    #+#             */
+/*   Updated: 2024/11/19 21:23:22 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/mrt.h"
+#include "libft.h"
 
-void	print_scene(t_scene scene);
-
-int	main(int ac, char **av)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	t_scene	scene;
+	t_list	*last;
 
-	scene = pars_scene(ac, av);
-	//print_scene(scene);
-	put_imageonwindow(scene, av[1]);
-	while (1){}
-	gc(0);
+	if (lst == NULL || new == NULL)
+		return ;
+	if (*lst == NULL)
+	{
+		*lst = new;
+		return ;
+	}
+	last = ft_lstlast(*lst);
+	last->next = new;
 }

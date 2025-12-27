@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   screen.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayouahid <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/11 16:57:37 by ayouahid          #+#    #+#             */
-/*   Updated: 2025/12/21 09:12:28 by hamel-yo         ###   ########.fr       */
+/*   Created: 2025/12/13 02:57:26 by hamel-yo          #+#    #+#             */
+/*   Updated: 2025/12/19 12:14:51 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/mrt.h"
 
-void	print_scene(t_scene scene);
-
-int	main(int ac, char **av)
+double	aspect(void)
 {
-	t_scene	scene;
+	return ((double)WIDTH / HEIGHT);
+}
 
-	scene = pars_scene(ac, av);
-	//print_scene(scene);
-	put_imageonwindow(scene, av[1]);
-	while (1){}
-	gc(0);
+t_tuple	get_helf_wh(double fov_rad)
+{
+	static t_tuple	helf_wh;
+
+	if (!fov_rad)
+		return (helf_wh);
+	helf_wh.x = tan(fov_rad / 2);
+	helf_wh.y = helf_wh.x / aspect();
+	return (helf_wh);
 }

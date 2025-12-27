@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayouahid <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hamel-yo <hamel-yo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/11 16:57:37 by ayouahid          #+#    #+#             */
-/*   Updated: 2025/12/21 09:12:28 by hamel-yo         ###   ########.fr       */
+/*   Created: 2024/11/18 17:40:50 by hamel-yo          #+#    #+#             */
+/*   Updated: 2024/11/18 17:43:40 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/mrt.h"
+#include "../include/libft.h"
 
-void	print_scene(t_scene scene);
-
-int	main(int ac, char **av)
+int	ft_lstsize(t_list *lst)
 {
-	t_scene	scene;
+	int	i;
 
-	scene = pars_scene(ac, av);
-	//print_scene(scene);
-	put_imageonwindow(scene, av[1]);
-	while (1){}
-	gc(0);
+	i = 0 ;
+	if (lst != NULL)
+	{
+		i++;
+		while (lst->next != NULL)
+		{
+			i++;
+			lst = lst->next;
+		}
+	}
+	return (i);
 }
