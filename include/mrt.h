@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 12:13:33 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/12/21 09:18:29 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/12/28 20:46:00 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <mlx.h>
 # include <math.h>
 # include "math.h"
-# include "print.h"
 # include <float.h>
 
 # define WIDTH 1900

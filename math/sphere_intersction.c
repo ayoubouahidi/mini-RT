@@ -6,23 +6,24 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 02:54:38 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/12/24 15:17:34 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/12/28 20:28:57 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/mrt.h"
 
-double	delta(t_ray ray, t_tuple c, t_tuple c_axis, double rad_square, t_tuple *s)
+double	delta(t_ray ray, t_plane p, double rad_square, t_tuple *s)
 {
 	t_tuple	oc;
 	t_tuple	abc;
 	t_tuple	das;
 
-	oc = tuple_sub(ray.origin, c);
+	oc = tuple_sub(ray.origin, p.point);
 	if (s)
 	{
-		oc = tuple_sub(oc, tuple_mul(dot_pro(oc, c_axis), c_axis));
-		ray.direction = tuple_sub(ray.direction, tuple_mul(dot_pro(ray.direction, c_axis), c_axis));
+		oc = tuple_sub(oc, tuple_mul(dot_pro(oc, p.n_vector), p.n_vector));
+		ray.direction = tuple_sub(ray.direction,
+				tuple_mul(dot_pro(ray.direction, p.n_vector), p.n_vector));
 	}
 	abc.x = dot_pro(ray.direction, ray.direction);
 	abc.y = 2 * dot_pro(ray.direction, oc);
@@ -34,10 +35,9 @@ double	delta(t_ray ray, t_tuple c, t_tuple c_axis, double rad_square, t_tuple *s
 	das.z = (-abc.y - sqrt(das.x)) / (2 * abc.x);
 	if (s)
 		s->v = das.y;
-	if ((das.y > das.z && das.y * das.z < 0) || (das.y < das.z && das.y * das.z > 0 && das.y >= 0))
+	if ((das.y > das.z && das.y * das.z < 0)
+		|| (das.y < das.z && das.y * das.z > 0 && das.y >= 0))
 		return (das.y);
-	//if (das.y < das.z && das.y * das.z > 0 && das.y >= 0 && !cy)
-	//	return (das.y);
 	return (das.z);
 }
 
@@ -52,13 +52,16 @@ t_tuple	get_nsphere(t_sphere sphere, t_tuple point)
 void	get_fsphere(t_ray ray, t_scene *scene, double *in)
 {
 	t_sphere	*f_sphere;
+	t_plane		p;
 	double		tmp;
 
 	f_sphere = scene->sphere;
 	scene->sphere = NULL;
 	while (f_sphere)
 	{
-		tmp = delta(ray, f_sphere->center, (t_tuple){0, 0, 0, 0}, f_sphere->rad_square, NULL);
+		p.point = f_sphere->center;
+		p.n_vector = (t_tuple){0, 0, 0, 0};
+		tmp = delta(ray, p, f_sphere->rad_square, NULL);
 		if (tmp >= 0 && *in > tmp)
 		{
 			*in = tmp;

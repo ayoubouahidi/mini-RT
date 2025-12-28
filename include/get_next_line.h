@@ -6,15 +6,15 @@
 /*   By: ayouahid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:13:14 by ayouahid          #+#    #+#             */
-/*   Updated: 2025/12/13 03:04:32 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/12/28 19:08:46 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_lINE_H 
-# define GET_NEXT_lINE_H
+#ifndef GET_NEXT_LINE_H 
+# define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 42
 # endif
 
 # include "libft.h"

@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 21:26:20 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/12/24 20:26:44 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/12/28 20:26:54 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,13 @@ double	cylinder_in(t_ray ray, t_cylinder cy)
 {
 	t_tuple	t;
 	t_tuple	p;
+	t_plane	d;
 	double	m;
 
-	t.z = cy.height /2;
-	t.x = delta(ray, cy.center, cy.n_vector, cy.rad_square, &t);
+	t.z = cy.height / 2;
+	d.point = cy.center;
+	d.n_vector = cy.n_vector;
+	t.x = delta(ray, d, cy.rad_square, &t);
 	if (t.x == -1)
 		return (-1);
 	t.y = ray.origin.y + t.x * ray.direction.y;

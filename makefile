@@ -18,6 +18,7 @@ parsing/get_next_line/get_next_line.c \
 parsing/get_next_line/get_next_line_utils.c \
 \
 math/color.c \
+math/count_color.c \
 math/cylinder_intersction.c \
 math/light_intersection.c \
 math/plane_intersction.c \

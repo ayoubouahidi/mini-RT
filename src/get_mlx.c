@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 04:54:55 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/12/28 14:19:19 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/12/28 20:52:48 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,11 @@ t_mlx	*get_mlx_data(char *file_name)
 	mlx.win = mlx_new_window(mlx.init, WIDTH, HEIGHT, file_name);
 	if (!mlx.win)
 		parsing_error("error on open the window\n");
-	
 	mlx.image = mlx_new_image(mlx.init, WIDTH, HEIGHT);
 	if (!mlx.image)
 		parsing_error("error on the creation of the image\n");
 	mlx.addr = mlx_get_data_addr(mlx.image, &mlx.bpp, &mlx.s_line, &mlx.endian);
-	mlx.bpp/= 8;
+	mlx.bpp /= 8;
 	return (&mlx);
 }
 
@@ -57,9 +56,9 @@ void	put_pixel(int x, int y, t_color color)
 
 void	put_imageonwindow(t_scene *scene, char *f_name)
 {
-	t_mlx	*mlx;
-	t_ray	ray;
-	t_color	color;
+	t_mlx		*mlx;
+	t_ray		ray;
+	t_color		color;
 	t_ushort	x;
 	t_ushort	y;
 
@@ -67,7 +66,6 @@ void	put_imageonwindow(t_scene *scene, char *f_name)
 	scene->win_ptr = mlx->win;
 	scene->mlx_ptr = mlx->init;
 	y = 0;
-	//color = mbs_color((scene->ambient_light).ratio, (scene->sphere)->color);
 	while (y < HEIGHT)
 	{
 		x = 0;

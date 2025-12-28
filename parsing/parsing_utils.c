@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 20:49:06 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/12/23 19:29:04 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/12/28 20:16:03 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_color	pars_color(char *s)
 		parsing_error("the color sould be composed from 3 numbers\n");
 	s++;
 	color.g = ft_atoi(s);
-	while (*s != ',')
+	while (*s != ',' && *s)
 		s++;
 	if (*s == 0)
 		parsing_error("the color sould be composed from 3 numbers\n");
@@ -89,7 +89,7 @@ t_tuple	pars_vector(char *s)
 	if ((vector.x < -1 || vector.x > 1)
 		|| (vector.y < -1 || vector.y > 1)
 		|| (vector.z < -1 || vector.z > 1))
-		parsing_error("the range of coordinate should be between -1 and 1\n");
+		parsing_error("the range of unit vector should be between -1 and 1\n");
 	vector = normalize_tuple(vector);
 	return (vector);
 }

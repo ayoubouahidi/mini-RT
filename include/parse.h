@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 14:45:50 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/12/27 18:35:27 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/12/28 20:23:49 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ typedef struct s_cylinder
 
 typedef struct s_scene
 {
-	void	*mlx_ptr;
-    void	*win_ptr;
+	void				*mlx_ptr;
+	void				*win_ptr;
 	t_ambient_light		ambient_light;
 	t_camera			camera;
 	t_light				*light;

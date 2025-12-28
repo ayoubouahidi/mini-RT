@@ -6,17 +6,17 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 08:58:53 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/12/28 14:19:59 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/12/28 21:36:35 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MATH_H
 # define MATH_H
 
-# define EPSIlON 0.00001
+# define EPSILON 0.00001
 # define PI 3.14159265358979323846264338
 
-#include "parse.h"
+# include "parse.h"
 
 typedef struct s_ray
 {
@@ -25,11 +25,12 @@ typedef struct s_ray
 	double	ray_intersection;
 }	t_ray;
 
+t_color	get_pixel(t_scene scene, t_scene full_scene, t_plane point, t_ray ray);
 t_tuple	get_point(t_ray ray, double t);
 t_tuple	get_nplane(t_tuple pdir, t_tuple rdir);
 t_tuple	get_ncylinder(t_cylinder cy, t_tuple p);
 t_tuple	get_nsphere(t_sphere sphere, t_tuple point);
-double	delta(t_ray ray, t_tuple c, t_tuple c_axis, double rad_square, t_tuple *s);
+double	delta(t_ray ray, t_plane p, double rad_square, t_tuple *s);
 double	get_first_intersction(t_ray ray, t_scene scene, t_color *color);
 void	get_fplane(t_ray ray, t_scene *scene, double *in);
 void	get_fcylinder(t_ray ray, t_scene *scene, double *in);
