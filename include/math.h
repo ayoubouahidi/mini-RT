@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 08:58:53 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/12/24 20:41:02 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/12/28 14:19:59 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_tuple	get_nplane(t_tuple pdir, t_tuple rdir);
 t_tuple	get_ncylinder(t_cylinder cy, t_tuple p);
 t_tuple	get_nsphere(t_sphere sphere, t_tuple point);
 double	delta(t_ray ray, t_tuple c, t_tuple c_axis, double rad_square, t_tuple *s);
-t_color	get_first_intersction(t_ray ray, t_scene scene);
+double	get_first_intersction(t_ray ray, t_scene scene, t_color *color);
 void	get_fplane(t_ray ray, t_scene *scene, double *in);
 void	get_fcylinder(t_ray ray, t_scene *scene, double *in);
 void	get_fsphere(t_ray ray, t_scene *scene, double *in);

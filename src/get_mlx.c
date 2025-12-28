@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 04:54:55 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/12/23 16:15:02 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/12/28 14:19:19 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	put_imageonwindow(t_scene scene, char *f_name)
 		while (x < WIDTH)
 		{
 			ray = get_ray(x, y, scene.camera);
-			color = get_first_intersction(ray, scene);
+			get_first_intersction(ray, scene, &color);
 			put_pixel(x, y, color);
 			x++;
 		}

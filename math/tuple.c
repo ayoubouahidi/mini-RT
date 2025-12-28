@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 02:55:03 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/12/23 09:21:17 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/12/28 14:12:56 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ double	magnitude(t_tuple v)
 {
 	double	meg;
 
-	v.x = pow(v.x, 2);
-	v.y = pow(v.y, 2);
-	v.z = pow(v.z, 2);
+	v.x = v.x * v.x;
+	v.y = v.y * v.y;
+	v.z = v.z * v.z;
 	meg = v.x + v.y + v.z;
 	meg = sqrt(meg);
 	return (meg);
