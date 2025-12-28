@@ -12,13 +12,31 @@
 
 #include "../include/mrt.h"
 
-void	print_scene(t_scene scene);
+t_mlx	*get_mlx_data(char *file_name);
+
+void	cleanup_mlx(void)
+{
+    t_mlx	*mlx;
+
+    mlx = get_mlx_data(NULL);
+    if (mlx->image)
+        mlx_destroy_image(mlx->init, mlx->image);
+    if (mlx->win)
+        mlx_destroy_window(mlx->init, mlx->win);
+    if (mlx->init)
+    {
+        mlx_destroy_display(mlx->init);
+        free(mlx->init);
+    }
+}
 
 int	handle_keypress(int keycode, t_scene *scene)
 {
 	(void)scene;
+
 	if (keycode == 65307)
 	{
+		cleanup_mlx();
 		gc(1);
 		exit(0);
 	}
@@ -28,6 +46,7 @@ int	handle_keypress(int keycode, t_scene *scene)
 int	handle_close_window(t_scene *scene)
 {
 	(void)scene;
+	cleanup_mlx();
 	gc(1);
 	exit(0);
 	return (0);
