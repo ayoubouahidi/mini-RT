@@ -87,6 +87,8 @@ typedef struct s_cylinder
 
 typedef struct s_scene
 {
+	void	*mlx_ptr;
+    void	*win_ptr;
 	t_ambient_light		ambient_light;
 	t_camera			camera;
 	t_light				*light;

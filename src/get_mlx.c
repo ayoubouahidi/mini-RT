@@ -24,6 +24,7 @@ t_mlx	*get_mlx_data(char *file_name)
 	mlx.win = mlx_new_window(mlx.init, WIDTH, HEIGHT, file_name);
 	if (!mlx.win)
 		parsing_error("error on open the window\n");
+	
 	mlx.image = mlx_new_image(mlx.init, WIDTH, HEIGHT);
 	if (!mlx.image)
 		parsing_error("error on the creation of the image\n");
@@ -54,7 +55,7 @@ void	put_pixel(int x, int y, t_color color)
 	*(int *)ptr = pixel;
 }
 
-void	put_imageonwindow(t_scene scene, char *f_name)
+void	put_imageonwindow(t_scene *scene, char *f_name)
 {
 	t_mlx	*mlx;
 	t_ray	ray;
@@ -63,15 +64,17 @@ void	put_imageonwindow(t_scene scene, char *f_name)
 	t_ushort	y;
 
 	mlx = get_mlx_data(f_name);
+	scene->win_ptr = mlx->win;
+	scene->mlx_ptr = mlx->init;
 	y = 0;
-	//color = mbs_color((scene.ambient_light).ratio, (scene.sphere)->color);
+	//color = mbs_color((scene->ambient_light).ratio, (scene->sphere)->color);
 	while (y < HEIGHT)
 	{
 		x = 0;
 		while (x < WIDTH)
 		{
-			ray = get_ray(x, y, scene.camera);
-			get_first_intersction(ray, scene, &color);
+			ray = get_ray(x, y, scene->camera);
+			get_first_intersction(ray, *scene, &color);
 			put_pixel(x, y, color);
 			x++;
 		}

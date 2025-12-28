@@ -39,6 +39,6 @@ typedef struct s_mlx
 
 double	sp_in(t_ray ray, t_sphere sp);
 t_ray	get_ray(t_ushort x, t_ushort y, t_camera camera);
-void	put_imageonwindow(t_scene scene, char *f_name);
+void	put_imageonwindow(t_scene *scene, char *f_name);
 void	print_coordinate(t_tuple coor);
 #endif

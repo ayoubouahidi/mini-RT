@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 22:34:47 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/12/21 06:06:38 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/12/28 18:44:58 by ayouahid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ t_scene	parsing(t_list	*list)
 t_scene	pars_scene(int c, char **av)
 {
 	int		len;
+	t_scene		scene;
 	int		fd;
 	t_list	*list;
 
@@ -89,5 +90,7 @@ t_scene	pars_scene(int c, char **av)
 		close(fd);
 		parsing_error("empty file\n");
 	}
-	return (parsing(list));
+	scene = parsing(list);
+	ft_lstclear(&list, free);
+	return (scene);
 }
