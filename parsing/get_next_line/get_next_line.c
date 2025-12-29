@@ -6,7 +6,7 @@
 /*   By: ayouahid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 00:20:42 by ayouahid          #+#    #+#             */
-/*   Updated: 2025/12/13 00:29:29 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/12/29 15:34:10 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ char	*joinfree(char *buff, char *readed)
 	if (!buff)
 		buff = gnl_strdup("");
 	tmp = gnl_strjoin(buff, readed);
+	free(buff);
 	return (tmp);
 }
 
@@ -33,12 +34,16 @@ char	*newpointer(char *buff)
 	while (buff[i] != '\n' && buff[i] != '\0')
 		i++;
 	if (buff[i] == '\0')
+	{
+		free(buff);
 		return (NULL);
+	}
 	newbuff = gnl_strdup(buff + i + 1);
+	free(buff);
 	return (newbuff);
 }
 
-char	*pars_line(char *buff)
+char	*get_line(char *buff)
 {
 	char	*line;
 	int		i;
@@ -49,7 +54,9 @@ char	*pars_line(char *buff)
 		return (NULL);
 	while (buff[i] != '\n' && buff[i] != '\0')
 		i++;
-	line = gc(i + 2);
+	line = malloc(i + 2);
+	if (!line)
+		return (NULL);
 	j = 0;
 	while (buff[j] != '\n' && buff[j] != '\0')
 	{
@@ -70,20 +77,27 @@ char	*readfile(int fd, char *buff)
 	ssize_t	octreaded;
 	char	*readed;
 
-	readed = gc(BUFFER_SIZE + 1);
-	octreaded = read(fd, readed, BUFFER_SIZE);
-	while (octreaded > 0)
+	readed = malloc(BUFFER_SIZE + 1);
+	if (!readed)
+		return (NULL);
+	while (1)
 	{
+		octreaded = read(fd, readed, BUFFER_SIZE);
+		if (octreaded <= 0)
+			break ;
 		readed[octreaded] = '\0';
 		buff = joinfree(buff, readed);
 		if (gnl_strchr(buff, '\n'))
 			break ;
-		octreaded = read(fd, readed, BUFFER_SIZE);
 	}
 	if (octreaded == -1)
-		return (NULL);
+		return (freenull(buff, readed));
 	if (octreaded == 0)
+	{
+		free(readed);
 		return (buff);
+	}
+	free(readed);
 	return (buff);
 }
 
@@ -96,8 +110,11 @@ char	*get_next_line(int fd)
 		return (NULL);
 	buff = readfile(fd, buff);
 	if (buff == NULL)
+	{
+		free(buff);
 		return (NULL);
-	line = pars_line(buff);
+	}
+	line = get_line(buff);
 	buff = newpointer(buff);
 	return (line);
 }

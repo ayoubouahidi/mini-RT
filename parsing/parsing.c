@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 22:34:47 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/12/28 20:36:19 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/12/29 15:03:58 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_list	*pars_map(int fd)
 		if (!line)
 			break ;
 		splited_line = ft_split(line, ' ');
+		free(line);
 		node = ft_lstnew(splited_line);
 		ft_lstadd_back(&list, node);
 	}

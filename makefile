@@ -84,7 +84,7 @@ OBJS = $(SRCS:%.c=%.o)
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT) 
-	$(CC) $(CFLAGS)  -o $(NAME) $(OBJS)   -lX11 -lXext -lm -lmlx 
+	$(CC) $(CFLAGS)  -o $(NAME) $(OBJS)   -lX11 -lXext -lm -lmlx #-fsanitize=address -g3
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@

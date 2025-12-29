@@ -6,7 +6,7 @@
 /*   By: ayouahid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:57:37 by ayouahid          #+#    #+#             */
-/*   Updated: 2025/12/28 20:45:19 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/12/29 15:12:47 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,27 @@ t_mlx	*get_mlx_data(char *file_name);
 
 void	cleanup_mlx(void)
 {
-    t_mlx	*mlx;
+	t_mlx	*mlx;
 
-    mlx = get_mlx_data(NULL);
-    if (mlx->image)
-        mlx_destroy_image(mlx->init, mlx->image);
-    if (mlx->win)
-        mlx_destroy_window(mlx->init, mlx->win);
-    if (mlx->init)
-    {
-        mlx_destroy_display(mlx->init);
-        free(mlx->init);
-    }
+	mlx = get_mlx_data(NULL);
+	if (mlx->image)
+		mlx_destroy_image(mlx->init, mlx->image);
+	if (mlx->win)
+		mlx_destroy_window(mlx->init, mlx->win);
+	if (mlx->init)
+	{
+		mlx_destroy_display(mlx->init);
+		free(mlx->init);
+	}
 }
 
 int	handle_keypress(int keycode, t_scene *scene)
 {
 	(void)scene;
-
 	if (keycode == 65307)
 	{
 		cleanup_mlx();
-		gc(1);
+		gc(0);
 		exit(0);
 	}
 	return (0);
@@ -47,7 +46,7 @@ int	handle_close_window(t_scene *scene)
 {
 	(void)scene;
 	cleanup_mlx();
-	gc(1);
+	gc(0);
 	exit(0);
 	return (0);
 }

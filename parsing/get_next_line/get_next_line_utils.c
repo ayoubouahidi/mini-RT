@@ -6,7 +6,7 @@
 /*   By: ayouahid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 00:21:29 by ayouahid          #+#    #+#             */
-/*   Updated: 2025/12/13 00:29:52 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2025/12/29 15:41:38 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ char	*gnl_strdup(const char *s)
 	if (s == NULL)
 		return (NULL);
 	str = (char *)s;
-	newstr = gc(sizeof(char) * gnl_strlen(str) + 1);
+	newstr = malloc(sizeof(char) * gnl_strlen(str) + 1);
+	if (newstr == NULL)
+		return (NULL);
 	i = 0;
 	while (str[i] != '\0')
 	{
@@ -60,6 +62,13 @@ char	*gnl_strdup(const char *s)
 	}
 	newstr[i] = '\0';
 	return (newstr);
+}
+
+char	*freenull(char *buff, char *readed)
+{
+	free(buff);
+	free(readed);
+	return (NULL);
 }
 
 char	*gnl_strjoin(char const *s1, char const *s2)
@@ -71,7 +80,10 @@ char	*gnl_strjoin(char const *s1, char const *s2)
 	j = 0;
 	if (!s1)
 		return (gnl_strdup(s2));
-	newstr = (char *)gc(sizeof(char) * (gnl_strlen(s1) + gnl_strlen(s2) + 1));
+	newstr = (char *)malloc(sizeof(char)
+			* (gnl_strlen(s1) + gnl_strlen(s2) + 1));
+	if (newstr == NULL)
+		return (NULL);
 	i = 0;
 	while (i < gnl_strlen(s1))
 	{
