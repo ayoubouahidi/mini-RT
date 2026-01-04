@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 10:08:57 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/12/16 03:32:19 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2026/01/04 04:03:15 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	parsing_error(char *s)
 {
+	ft_putstr_fd("Error\n", 2);
 	ft_putstr_fd(s, 2);
 	gc(0);
 	exit(1);

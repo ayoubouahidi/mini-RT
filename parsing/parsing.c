@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 22:34:47 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/12/29 15:03:58 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2026/01/04 03:39:58 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ t_list	*pars_map(int fd)
 	list = NULL;
 	while (1)
 	{
-		line = "\n";
-		while (line && line[0] == '\n')
-			line = get_next_line(fd);
+		line = get_next_line(fd);
 		if (!line)
 			break ;
 		splited_line = ft_split(line, ' ');
@@ -42,7 +40,7 @@ void	pars_list(t_scene *scene, t_list *list)
 	while (list)
 	{
 		s = ((char **)list->content)[0];
-		if (!ft_strncmp("#", (const char *)s, 1))
+		if (*s == '\n' || !ft_strncmp("#", (const char *)s, 1))
 			s = "";
 		else if (!ft_strncmp("C", (const char *)s, 1))
 			scene->camera = pars_camera((char **)list->content);

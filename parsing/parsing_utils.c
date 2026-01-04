@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 20:49:06 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/12/28 20:16:03 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2026/01/04 04:02:10 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 void	string_is_null(char *s)
 {
 	if (s == NULL)
-		parsing_error("");
+		parsing_error("not enough data\n");
+	if (*s == '\n')
+		parsing_error("not enough data\n");
 }
 
 double	pars_ratio(char *s)
