@@ -6,18 +6,36 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 10:08:57 by hamel-yo          #+#    #+#             */
-/*   Updated: 2026/01/04 04:03:15 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2026/01/07 16:10:53 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/mrt.h"
 
+bool	get_perror(char *s)
+{
+	static bool	c;
+
+	if (s && !c)
+	{
+		c = 1;
+		return (0);
+	}
+	return (c);
+}
+
 void	parsing_error(char *s)
 {
-	ft_putstr_fd("Error\n", 2);
-	ft_putstr_fd(s, 2);
-	gc(0);
-	exit(1);
+	if (s && !get_perror(s))
+	{
+		ft_putstr_fd("Error\n", 2);
+		ft_putstr_fd(s, 2);
+	}
+	else if (!s && get_perror(s))
+	{
+		gc(0);
+		exit(1);
+	}
 }
 
 void	exit_mrt(char *s)
@@ -35,7 +53,7 @@ void	*gc(size_t size)
 	if (!size)
 	{
 		ft_lstclear(&list, free);
-		exit(0);
+		return (NULL);
 	}
 	ptr = ft_calloc(size, 1);
 	if (!ptr)

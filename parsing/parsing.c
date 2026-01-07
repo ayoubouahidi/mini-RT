@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 22:34:47 by hamel-yo          #+#    #+#             */
-/*   Updated: 2026/01/04 03:39:58 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2026/01/07 16:02:55 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	pars_list(t_scene *scene, t_list *list)
 {
 	char	*s;
 
-	while (list)
+	while (list && !get_perror(NULL))
 	{
 		s = ((char **)list->content)[0];
 		if (*s == '\n' || !ft_strncmp("#", (const char *)s, 1))
@@ -92,5 +92,6 @@ t_scene	pars_scene(int c, char **av)
 	scene = parsing(list);
 	ft_lstclear(&list, free);
 	close(fd);
+	parsing_error(NULL);
 	return (scene);
 }
