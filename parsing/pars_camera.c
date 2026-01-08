@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 03:22:57 by hamel-yo          #+#    #+#             */
-/*   Updated: 2026/01/08 06:12:44 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2026/01/08 16:43:40 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,14 @@ t_camera	pars_camera(char **args)
 	int				fov;
 	static t_uchar	nbr;
 
-	if (nbr)
+	ft_memset(&camera, sizeof(t_camera), 0);
+	if ((args && nbr) || (!args && !nbr))
+	{
 		parsing_error("the number of camera should be one\n");
+		return (camera);
+	}
+	if (!args)
+		return (camera);
 	nbr++;
 	camera.viewpoint = pars_coordinate(args[1], 1);
 	camera.forward = pars_vector(args[2]);

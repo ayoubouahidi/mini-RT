@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 22:34:47 by hamel-yo          #+#    #+#             */
-/*   Updated: 2026/01/07 16:02:55 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2026/01/08 16:41:21 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ t_scene	parsing(t_list	*list)
 	if (list == NULL)
 		return (scene);
 	pars_list(&scene, list);
+	pars_camera(NULL);
+	pars_a_light(NULL);
 	return (scene);
 }
 
