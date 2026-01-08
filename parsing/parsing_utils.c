@@ -6,26 +6,29 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 20:49:06 by hamel-yo          #+#    #+#             */
-/*   Updated: 2026/01/04 04:02:10 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2026/01/08 06:10:43 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parse.h"
 #include "../include/math.h"
 
-void	string_is_null(char *s)
+bool	string_is_null(char *s)
 {
-	if (s == NULL)
+	if (s == NULL || *s == '\n')
+	{
 		parsing_error("not enough data\n");
-	if (*s == '\n')
-		parsing_error("not enough data\n");
+		return (1);
+	}
+	return (0);
 }
 
 double	pars_ratio(char *s)
 {
 	double	ratio;
 
-	string_is_null(s);
+	if (string_is_null(s))
+		return (0.0);
 	ratio = ft_atof(s);
 	if (ratio < 0 || ratio > 1)
 	{
@@ -39,7 +42,8 @@ t_color	pars_color(char *s)
 {
 	t_color	color;
 
-	string_is_null(s);
+	if (string_is_null(s))
+		return ((t_color){0, 0, 0});
 	color.r = ft_atoi(s);
 	while (*s != ',' && *s)
 		s++;
@@ -64,7 +68,8 @@ t_tuple	pars_coordinate(char *s, bool v)
 {
 	t_tuple	coordinate;
 
-	string_is_null(s);
+	if (string_is_null(s))
+		return ((t_tuple){0, 0, 0, 0});
 	coordinate.x = ft_atof(s);
 	while (*s != ',' && *s)
 		s++;
@@ -86,7 +91,8 @@ t_tuple	pars_vector(char *s)
 {
 	t_tuple	vector;
 
-	string_is_null(s);
+	if (string_is_null(s))
+		return ((t_tuple){0, 0, 0, 0});
 	vector = pars_coordinate(s, 0);
 	if ((vector.x < -1 || vector.x > 1)
 		|| (vector.y < -1 || vector.y > 1)

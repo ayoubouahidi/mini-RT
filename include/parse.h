@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 14:45:50 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/12/28 20:23:49 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2026/01/08 05:52:23 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ typedef struct s_scene
 t_scene				pars_scene(int c, char **av);
 t_ambient_light		pars_a_light(char **args);
 t_camera			pars_camera(char **args);
+bool				string_is_null(char *s);
 void				pars_cylinder(t_cylinder **cylinder, char **args);
 void				pars_light(t_light **light, char **args);
 void				pars_plane(t_plane **plane, char **args);

@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 18:12:27 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/12/23 19:30:07 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2026/01/08 05:57:11 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ t_cylinder	*new_cylinder(char **args)
 	cylinder = gc(sizeof(t_cylinder));
 	cylinder->center = pars_coordinate(args[1], 1);
 	cylinder->n_vector = pars_vector(args[2]);
+	if (string_is_null(args[3]) || string_is_null(args[4]))
+		return (cylinder);
 	cylinder->rad_square = ft_atof(args[3]);
 	cylinder->height = ft_atof(args[4]);
 	if (cylinder->rad_square < 0 || cylinder->height < 0)

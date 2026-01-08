@@ -6,7 +6,7 @@
 /*   By: hamel-yo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 18:13:06 by hamel-yo          #+#    #+#             */
-/*   Updated: 2025/12/21 00:18:56 by hamel-yo         ###   ########.fr       */
+/*   Updated: 2026/01/08 05:59:51 by hamel-yo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ t_sphere	*new_sphere(char **args)
 
 	sphere = gc(sizeof(t_sphere));
 	sphere->center = pars_coordinate(args[1], 1);
+	if (string_is_null(args[2]))
+		return (sphere);
 	sphere->rad_square = ft_atof(args[2]);
 	if (sphere->rad_square <= 0)
 		parsing_error("sphere diameter should be positive\n");
